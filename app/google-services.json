@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "68271433881",
+    "project_id": "tecnomessager",
+    "storage_bucket": "tecnomessager.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68271433881:android:a1683a509e653cb6cf3008",
+        "android_client_info": {
+          "package_name": "com.example.tecnomessager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "68271433881-lnem6nqefje1nhsj4mvodhga6thgeq6u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBr4eJYppoIJ62BMWe9agu5sYp6eGuvVb4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "68271433881-lnem6nqefje1nhsj4mvodhga6thgeq6u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

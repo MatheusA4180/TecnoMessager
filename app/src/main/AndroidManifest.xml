@@ -8,9 +8,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".di.MyApp"
         android:theme="@style/Theme.TecnoMessager">
         <activity
-            android:name=".MainActivity"
+            android:name=".intro.activity.IntroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
