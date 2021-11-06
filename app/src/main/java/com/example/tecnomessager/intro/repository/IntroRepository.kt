@@ -2,11 +2,17 @@ package com.example.tecnomessager.intro.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.tecnomessager.data.local.SessionManager
 import com.example.tecnomessager.data.model.Resource
 import com.example.tecnomessager.data.model.User
 import com.google.firebase.auth.*
+import com.google.firebase.storage.FirebaseStorage
 
-class IntroRepository(private val firebaseAuth: FirebaseAuth) {
+class IntroRepository(
+    private val firebaseAuth: FirebaseAuth,
+    private val firebaseStorage: FirebaseStorage,
+    private val sessionManager: SessionManager
+) {
 
     fun auth(user: User): LiveData<Resource<Boolean>> = MutableLiveData<Resource<Boolean>>().apply{
         try {

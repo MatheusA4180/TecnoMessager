@@ -5,4 +5,6 @@ import com.example.tecnomessager.intro.repository.IntroRepository
 
 class OnboardingViewModel(private val repository: IntroRepository) : ViewModel() {
 
+
+
 }

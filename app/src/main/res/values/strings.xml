@@ -7,4 +7,5 @@
     <string name="diff_password_and_conf_password">As senhas não coincidem</string>
     <string name="empty_email_and_password_and_conf_password">E-mail e senhas são obrigatórios</string>
     <string name="register_sucess">Cadastro realizado com sucesso</string>
+    <string name="preference_key">preference_key</string>
 </resources>
