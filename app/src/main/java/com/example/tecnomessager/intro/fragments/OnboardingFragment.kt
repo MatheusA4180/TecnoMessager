@@ -77,7 +77,7 @@ class OnboardingFragment : Fragment() {
             ).observe(viewLifecycleOwner, {
                 it?.let { resource ->
                     if (resource.dado) {
-                        //findNavController().navigate(R.id.)
+                        findNavController().navigate(R.id.action_onboardingFragment_to_homeActivity)
                     } else {
                         when (resource.erro) {
                             getString(R.string.name_and_message_error) -> {
