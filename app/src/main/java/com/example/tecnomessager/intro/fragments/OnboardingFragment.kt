@@ -111,39 +111,4 @@ class OnboardingFragment : Fragment() {
 
     }
 
-    private fun sendImageToFirebase() {
-        if (uriPhotoSelected != null) {
-            val fileName = UUID.randomUUID().toString()
-            val ref = FirebaseStorage.getInstance().getReference("/images/$fileName")
-
-            ref.putFile(uriPhotoSelected!!)
-                .addOnSuccessListener {
-                    Log.d("Cadastro", "Imagem enviada com sucesso: ${it.metadata?.path}")
-
-                    ref.downloadUrl.addOnSuccessListener {
-                        Log.d("Registro", "local do arquivo: $it")
-                        saveUserToFirebase(it.toString())
-                    }
-                }
-                .addOnFailureListener {
-                    //TODO do some logging here
-                }
-        } else return
-    }
-
-    private fun saveUserToFirebase(profileImageUrl: String) {
-        val ref = FirebaseFirestore.getInstance().collection(arguments.uidUser).document("userData")
-        val user = UserApp(
-            arguments.uidUser,
-            profileImageUrl,
-            binding.nameProfile.text.toString(),
-            binding.editMessage.text.toString()
-        )
-
-        ref.set(user)
-            .addOnSuccessListener {
-                Log.d("Registro", "usuario salvo no BD do Firebase")
-            }
-    }
-
 }

@@ -3,6 +3,7 @@ package com.example.tecnomessager.di
 import android.content.Context
 import com.example.tecnomessager.R
 import com.example.tecnomessager.data.local.SessionManager
+import com.example.tecnomessager.home.viewmodel.HomeActivityViewModel
 import com.example.tecnomessager.intro.repository.IntroRepository
 import com.example.tecnomessager.intro.viewmodel.LoginViewModel
 import com.example.tecnomessager.intro.viewmodel.OnboardingViewModel
@@ -32,6 +33,10 @@ val MyModules = module {
 
     viewModel {
         OnboardingViewModel(repository = get())
+    }
+
+    viewModel {
+        HomeActivityViewModel(repository = get())
     }
 
     factory {
