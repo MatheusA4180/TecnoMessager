@@ -7,6 +7,7 @@ import com.example.tecnomessager.intro.repository.IntroRepository
 import com.example.tecnomessager.intro.viewmodel.LoginViewModel
 import com.example.tecnomessager.intro.viewmodel.OnboardingViewModel
 import com.example.tecnomessager.intro.viewmodel.RegisterViewModel
+import com.example.tecnomessager.intro.viewmodel.SplashViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -16,6 +17,10 @@ import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val MyModules = module {
+
+    viewModel {
+        SplashViewModel(repository = get())
+    }
 
     viewModel {
         LoginViewModel(repository = get())

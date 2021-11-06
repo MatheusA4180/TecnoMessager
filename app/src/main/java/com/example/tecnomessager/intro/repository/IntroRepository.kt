@@ -89,6 +89,14 @@ class IntroRepository(
                 }
         }
 
+    fun isLoggedIn(): LiveData<Boolean> = MutableLiveData<Boolean>().apply {
+        value = sessionManager.getSavedUidUser().isNotEmpty()
+    }
+
+    fun logoutApp() {
+        sessionManager.saveUidUser("")
+    }
+
     companion object {
         const val USER_DATA = "userData"
     }
