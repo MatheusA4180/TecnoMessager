@@ -33,7 +33,6 @@ class LoginViewModel(private val repository: IntroRepository) : ViewModel() {
                 else -> {
                     Resource(true)
                 }
-
             }
         }
 

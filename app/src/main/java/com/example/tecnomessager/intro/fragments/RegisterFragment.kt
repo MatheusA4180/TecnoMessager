@@ -1,6 +1,5 @@
 package com.example.tecnomessager.intro.fragments
 
-import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -68,11 +67,14 @@ class RegisterFragment : Fragment() {
                         view.snackBar(getString(R.string.register_sucess))
                         findNavController().navigate(R.id.action_registerFragment_to_onboardingFragment)
                     } else {
-                        when(resource.erro){
+                        when (resource.erro) {
                             getString(R.string.empty_email_and_password_and_conf_password) -> {
-                                binding.registrationUsernameLayout.error = getString(R.string.empty_email)
-                                binding.registrationPasswordLayout.error = getString(R.string.empty_password)
-                                binding.registrationConfirmPasswordLayout.error = getString(R.string.empty_password)
+                                binding.registrationUsernameLayout.error =
+                                    getString(R.string.empty_email)
+                                binding.registrationPasswordLayout.error =
+                                    getString(R.string.empty_password)
+                                binding.registrationConfirmPasswordLayout.error =
+                                    getString(R.string.empty_password)
                             }
                             getString(R.string.empty_email) -> {
                                 binding.registrationUsernameLayout.error = resource.erro
@@ -81,10 +83,12 @@ class RegisterFragment : Fragment() {
                                 binding.registrationPasswordLayout.error = resource.erro
                             }
                             getString(R.string.diff_password_and_conf_password) -> {
-                                binding.registrationPasswordLayout.error = getString(R.string.diff_password_and_conf_password)
-                                binding.registrationConfirmPasswordLayout.error = getString(R.string.diff_password_and_conf_password)
+                                binding.registrationPasswordLayout.error =
+                                    getString(R.string.diff_password_and_conf_password)
+                                binding.registrationConfirmPasswordLayout.error =
+                                    getString(R.string.diff_password_and_conf_password)
                             }
-                            else ->{
+                            else -> {
                                 val messageError = resource.erro ?: getString(R.string.error_auth)
                                 view.snackBar(messageError)
                             }

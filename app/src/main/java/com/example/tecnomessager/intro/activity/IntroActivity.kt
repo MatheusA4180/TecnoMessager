@@ -1,7 +1,7 @@
 package com.example.tecnomessager.intro.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.tecnomessager.R
 
 class IntroActivity : AppCompatActivity() {
@@ -10,5 +10,5 @@ class IntroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
     }
-    
+
 }

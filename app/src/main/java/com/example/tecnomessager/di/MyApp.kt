@@ -13,6 +13,7 @@ class MyApp:Application() {
             androidContext(this@MyApp)
             modules(MyModules)
         }
+
     }
 
 }

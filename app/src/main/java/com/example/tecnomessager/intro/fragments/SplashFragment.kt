@@ -29,15 +29,15 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         Handler(Looper.getMainLooper()).postDelayed(
-        {
-            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
-        },
+            {
+                findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+            },
             SPLASH_DELAY
         )
 
     }
 
-    companion object{
+    companion object {
         private const val SPLASH_DELAY = 3000L
     }
 

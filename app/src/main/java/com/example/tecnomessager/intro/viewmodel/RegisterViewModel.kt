@@ -10,18 +10,18 @@ import com.example.tecnomessager.intro.repository.IntroRepository
 class RegisterViewModel(private val repository: IntroRepository) : ViewModel() {
 
     fun onRegistrationUser(user: User, confirmPassword: String): LiveData<Resource<Boolean>> {
-        val valid = validFields(user,confirmPassword)
-        return if (valid.value!!.dado){
+        val valid = validFields(user, confirmPassword)
+        return if (valid.value!!.dado) {
             repository.register(user)
-        }else{
+        } else {
             valid
         }
     }
 
-    private fun validFields(user: User,confirmPassword: String): LiveData<Resource<Boolean>> =
+    private fun validFields(user: User, confirmPassword: String): LiveData<Resource<Boolean>> =
         MutableLiveData<Resource<Boolean>>().apply {
             value = when {
-                user.email.isBlank() && user.password.isBlank() && confirmPassword.isBlank()-> {
+                user.email.isBlank() && user.password.isBlank() && confirmPassword.isBlank() -> {
                     Resource(false, "E-mail e senhas são obrigatórios")
                 }
                 user.email.isBlank() -> {
@@ -36,7 +36,6 @@ class RegisterViewModel(private val repository: IntroRepository) : ViewModel() {
                 else -> {
                     Resource(true)
                 }
-
             }
         }
 

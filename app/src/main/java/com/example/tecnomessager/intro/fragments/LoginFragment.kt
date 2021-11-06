@@ -45,29 +45,30 @@ class LoginFragment : Fragment() {
                     binding.loginPassword.text.toString()
                 )
             ).observe(viewLifecycleOwner, {
-                    it?.let { resource ->
-                        if (resource.dado) {
-                            findNavController().navigate(R.id.action_loginFragment_to_onboardingFragment)
-                        } else {
-                            when(resource.erro){
-                                getString(R.string.empty_email_and_password) -> {
-                                    binding.loginUsernameLayout.error = getString(R.string.empty_email)
-                                    binding.loginPasswordLayout.error = getString(R.string.empty_password)
-                                }
-                                getString(R.string.empty_email) -> {
-                                    binding.loginUsernameLayout.error = resource.erro
-                                }
-                                getString(R.string.empty_password) -> {
-                                    binding.loginPasswordLayout.error = resource.erro
-                                }
-                                else ->{
-                                    val messageError = resource.erro ?: getString(R.string.error_auth)
-                                    view.snackBar(messageError)
-                                }
+                it?.let { resource ->
+                    if (resource.dado) {
+                        findNavController().navigate(R.id.action_loginFragment_to_onboardingFragment)
+                    } else {
+                        when (resource.erro) {
+                            getString(R.string.empty_email_and_password) -> {
+                                binding.loginUsernameLayout.error = getString(R.string.empty_email)
+                                binding.loginPasswordLayout.error =
+                                    getString(R.string.empty_password)
+                            }
+                            getString(R.string.empty_email) -> {
+                                binding.loginUsernameLayout.error = resource.erro
+                            }
+                            getString(R.string.empty_password) -> {
+                                binding.loginPasswordLayout.error = resource.erro
+                            }
+                            else -> {
+                                val messageError = resource.erro ?: getString(R.string.error_auth)
+                                view.snackBar(messageError)
                             }
                         }
                     }
-                })
+                }
+            })
             binding.progressCircular.isVisible = false
         }
 
