@@ -4,4 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".intro.activity.IntroActivity"/>
+    tools:context=".intro.activity.IntroActivity">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/intro_activity_nav_host"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/intro_nav_graph" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

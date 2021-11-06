@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">TecnoMessager</string>
+    <string name="empty_password">Senha é obrigatória</string>
+    <string name="empty_email">E-mail é obrigatório</string>
+    <string name="error_auth">Erro durante a autenticação</string>
+    <string name="empty_email_and_password">E-mail e senha são obrigatórios</string>
+    <string name="diff_password_and_conf_password">As senhas não coincidem</string>
+    <string name="empty_email_and_password_and_conf_password">E-mail e senhas são obrigatórios</string>
+    <string name="register_sucess">Cadastro realizado com sucesso</string>
 </resources>
