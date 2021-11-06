@@ -65,7 +65,11 @@ class RegisterFragment : Fragment() {
                 it?.let { resource ->
                     if (resource.dado) {
                         view.snackBar(getString(R.string.register_sucess))
-                        findNavController().navigate(R.id.action_registerFragment_to_onboardingFragment)
+                        findNavController().navigate(
+                            RegisterFragmentDirections.actionRegisterFragmentToOnboardingFragment(
+                                resource.erro!!
+                            )
+                        )
                     } else {
                         when (resource.erro) {
                             getString(R.string.empty_email_and_password_and_conf_password) -> {

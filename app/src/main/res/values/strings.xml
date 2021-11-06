@@ -8,4 +8,7 @@
     <string name="empty_email_and_password_and_conf_password">E-mail e senhas são obrigatórios</string>
     <string name="register_sucess">Cadastro realizado com sucesso</string>
     <string name="preference_key">preference_key</string>
+    <string name="message_error">Recado é obrigatório</string>
+    <string name="name_profile_error">Nome de perfil é obrigatório</string>
+    <string name="name_and_message_error">Nome e recado são obrigatórios</string>
 </resources>

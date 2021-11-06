@@ -10,11 +10,11 @@ import com.example.tecnomessager.intro.repository.IntroRepository
 class LoginViewModel(private val repository: IntroRepository) : ViewModel() {
 
     fun auth(user: User): LiveData<Resource<Boolean>> {
-        val valid = validFields(user)
-        return if (valid.value!!.dado) {
+        val validResponse = validFields(user)
+        return if (validResponse.value!!.dado) {
             repository.auth(user)
         } else {
-            valid
+            validResponse
         }
     }
 

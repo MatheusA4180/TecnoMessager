@@ -2,6 +2,7 @@ package com.example.tecnomessager.di
 
 import android.content.Context
 import com.example.tecnomessager.R
+import com.example.tecnomessager.data.local.SessionManager
 import com.example.tecnomessager.intro.repository.IntroRepository
 import com.example.tecnomessager.intro.viewmodel.LoginViewModel
 import com.example.tecnomessager.intro.viewmodel.OnboardingViewModel
@@ -29,7 +30,7 @@ val MyModules = module {
     }
 
     factory {
-        IntroRepository(firebaseAuth = get(), firebaseStorage = get(), sessionManager = get())
+        IntroRepository(firebaseAuth = get(), firebaseStorage = get(), firebaseFirestore = get(), sessionManager = get())
     }
 
     single {
@@ -42,6 +43,10 @@ val MyModules = module {
 
     single {
         Firebase.firestore
+    }
+
+    single{
+        SessionManager(preferences = get())
     }
 
     single {

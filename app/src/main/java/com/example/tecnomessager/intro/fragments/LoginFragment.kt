@@ -47,7 +47,11 @@ class LoginFragment : Fragment() {
             ).observe(viewLifecycleOwner, {
                 it?.let { resource ->
                     if (resource.dado) {
-                        findNavController().navigate(R.id.action_loginFragment_to_onboardingFragment)
+                        findNavController().navigate(
+                            LoginFragmentDirections.actionLoginFragmentToOnboardingFragment(
+                                resource.erro!!
+                            )
+                        )
                     } else {
                         when (resource.erro) {
                             getString(R.string.empty_email_and_password) -> {
