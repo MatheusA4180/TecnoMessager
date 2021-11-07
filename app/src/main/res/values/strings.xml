@@ -11,4 +11,7 @@
     <string name="message_error">Recado é obrigatório</string>
     <string name="name_profile_error">Nome de perfil é obrigatório</string>
     <string name="name_and_message_error">Nome e recado são obrigatórios</string>
+    <string name="tab_message">CONVERSAS</string>
+    <string name="tab_status">STATUS</string>
+    <string name="tab_notification">NOTIFICAÇÃO</string>
 </resources>

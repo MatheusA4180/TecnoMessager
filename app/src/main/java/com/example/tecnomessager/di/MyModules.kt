@@ -3,6 +3,9 @@ package com.example.tecnomessager.di
 import android.content.Context
 import com.example.tecnomessager.R
 import com.example.tecnomessager.data.local.SessionManager
+import com.example.tecnomessager.home.features.contacts.repository.ContactsRepository
+import com.example.tecnomessager.home.features.contacts.viewmodel.ListContactsViewModel
+import com.example.tecnomessager.home.features.contacts.viewmodel.MessageContactViewModel
 import com.example.tecnomessager.home.viewmodel.HomeActivityViewModel
 import com.example.tecnomessager.intro.repository.IntroRepository
 import com.example.tecnomessager.intro.viewmodel.LoginViewModel
@@ -39,8 +42,29 @@ val MyModules = module {
         HomeActivityViewModel(repository = get())
     }
 
+    viewModel {
+        ListContactsViewModel(repository = get())
+    }
+
+    viewModel {
+        MessageContactViewModel(repository = get())
+    }
+
     factory {
-        IntroRepository(firebaseAuth = get(), firebaseStorage = get(), firebaseFirestore = get(), sessionManager = get())
+        IntroRepository(
+            firebaseAuth = get(),
+            firebaseStorage = get(),
+            firebaseFirestore = get(),
+            sessionManager = get()
+        )
+    }
+
+    factory {
+        ContactsRepository(
+            firebaseStorage = get(),
+            firebaseFirestore = get(),
+            sessionManager = get()
+        )
     }
 
     single {
@@ -55,7 +79,7 @@ val MyModules = module {
         Firebase.firestore
     }
 
-    single{
+    single {
         SessionManager(preferences = get())
     }
 

@@ -26,6 +26,7 @@ class IntroRepository(
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             sessionManager.saveUidUser(firebaseAuth.uid.toString())
+                            sessionManager.saveEmailUser(user.email)
                             value = Resource(true, firebaseAuth.uid.toString())
                         } else {
                             val messageError: String = returnErrorForAuth(task.exception)
@@ -48,8 +49,18 @@ class IntroRepository(
             try {
                 firebaseAuth.createUserWithEmailAndPassword(user.email, user.password)
                     .addOnSuccessListener {
-                        sessionManager.saveUidUser(firebaseAuth.uid.toString())
-                        value = Resource(true, firebaseAuth.uid.toString())
+                        firebaseFirestore.collection(USERS).document(user.email)
+                            .set(
+                                mapOf("uidUser" to firebaseAuth.uid.toString())
+                            )
+                            .addOnSuccessListener {
+                                sessionManager.saveUidUser(firebaseAuth.uid.toString())
+                                sessionManager.saveEmailUser(user.email)
+                                value = Resource(true, firebaseAuth.uid.toString())
+                            }
+                            .addOnFailureListener {
+                                value = Resource(false, "falha ao cadastrar o usuário")
+                            }
                     }
                     .addOnFailureListener { exception ->
                         val messageError: String = returnErrorForRegister(exception)
@@ -70,10 +81,11 @@ class IntroRepository(
     fun saveUserDataToFirebase(userApp: UserApp): LiveData<Resource<Boolean>> =
         MutableLiveData<Resource<Boolean>>().apply {
             val referenceFile = firebaseStorage.reference.child("/images/${UUID.randomUUID()}")
-            referenceFile.putFile(userApp.imageProfile.toUri())
+            referenceFile.putFile(userApp.imageProfile!!.toUri())
                 .addOnSuccessListener {
                     referenceFile.downloadUrl.addOnSuccessListener {
-                        firebaseFirestore.collection(userApp.uidUser).document(USER_DATA)
+                        firebaseFirestore.collection(USERS)
+                            .document(sessionManager.getSavedemailUser())
                             .set(userApp)
                             .addOnSuccessListener {
                                 value = Resource(true)
@@ -99,6 +111,7 @@ class IntroRepository(
 
     companion object {
         const val USER_DATA = "userData"
+        const val USERS = "users"
     }
 
 }

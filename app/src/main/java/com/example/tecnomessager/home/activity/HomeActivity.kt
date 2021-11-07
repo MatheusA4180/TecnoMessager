@@ -26,6 +26,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.viewPagerHome.adapter = HomeViewPagerAdapter(this)
+
         TabLayoutMediator(
             binding.tabsMenu,
             binding.viewPagerHome
@@ -35,19 +36,21 @@ class HomeActivity : AppCompatActivity() {
                     tab.icon = resources.getDrawable(R.drawable.ic_camera)
                 }
                 1 -> {
-                    tab.text = "CONVERSAS"
+                    tab.text = getString(R.string.tab_message)
                 }
                 2 -> {
-                    tab.text = "STATUS"
+                    tab.text = getString(R.string.tab_status)
                 }
                 3 -> {
-                    tab.text = "NOTIFICAÇÃO"
+                    tab.text = getString(R.string.tab_notification)
                 }
             }
         }.attach()
 
-        binding.toolbarHome.setOnMenuItemClickListener {
-            when (it.itemId) {
+        binding.viewPagerHome.currentItem = 1
+
+        binding.toolbarHome.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
                 R.id.search_bar -> {
                     true
                 }
