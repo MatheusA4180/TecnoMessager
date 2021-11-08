@@ -69,10 +69,12 @@ class OnboardingFragment : Fragment() {
         binding.profileEnter.setOnClickListener {
             viewModel.onProfilerEnter(
                 UserApp(
-                    arguments.uidUser,
-                    uriPhotoSelected.toString(),
-                    binding.nameProfile.text.toString(),
-                    binding.editMessage.text.toString()
+                    uidUser = arguments.uidUser,
+                    email = null,
+                    imageProfile = uriPhotoSelected.toString(),
+                    nameProfile = binding.nameProfile.text.toString(),
+                    messageProfile = binding.editMessage.text.toString(),
+                    contacts = null
                 )
             ).observe(viewLifecycleOwner, {
                 it?.let { resource ->

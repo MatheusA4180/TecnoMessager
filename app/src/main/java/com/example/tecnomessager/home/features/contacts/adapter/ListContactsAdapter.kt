@@ -53,9 +53,9 @@ class ListContactsAdapter(
         private val hourMessageRecent: TextView = itemView.findViewById(R.id.hour_message_recent)
 
         fun bind(message: MessageReceiver) {
-            if (message.imageUserReceiver.isNullOrEmpty()) {
+//            if (message.imageUserReceiver.isNullOrEmpty()) {
                 imageContact.setImageResource(R.drawable.icon_app)
-            }
+//            }
 //            else{
 //                Picasso.get().load(message.imageUserReceiver).into(imageContact)
 //            }

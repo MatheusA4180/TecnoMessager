@@ -51,7 +51,10 @@ class IntroRepository(
                     .addOnSuccessListener {
                         firebaseFirestore.collection(USERS).document(user.email)
                             .set(
-                                mapOf("uidUser" to firebaseAuth.uid.toString())
+                                mapOf(
+                                    "uidUser" to firebaseAuth.uid.toString(),
+                                    "email" to user.email
+                                )
                             )
                             .addOnSuccessListener {
                                 sessionManager.saveUidUser(firebaseAuth.uid.toString())
@@ -80,12 +83,13 @@ class IntroRepository(
 
     fun saveUserDataToFirebase(userApp: UserApp): LiveData<Resource<Boolean>> =
         MutableLiveData<Resource<Boolean>>().apply {
+            addEmailAndRecoveryContacts(userApp)
             val referenceFile = firebaseStorage.reference.child("/images/${UUID.randomUUID()}")
             referenceFile.putFile(userApp.imageProfile!!.toUri())
                 .addOnSuccessListener {
                     referenceFile.downloadUrl.addOnSuccessListener {
                         firebaseFirestore.collection(USERS)
-                            .document(sessionManager.getSavedemailUser())
+                            .document(sessionManager.getSavedEmailUser())
                             .set(userApp)
                             .addOnSuccessListener {
                                 value = Resource(true)
@@ -101,6 +105,21 @@ class IntroRepository(
                 }
         }
 
+    private fun MutableLiveData<Resource<Boolean>>.addEmailAndRecoveryContacts(
+        userApp: UserApp
+    ) {
+        userApp.email = sessionManager.getSavedEmailUser()
+        firebaseFirestore.collection(USERS).document(sessionManager.getSavedEmailUser())
+            .get()
+            .addOnSuccessListener {
+                it.get("contacts")?.let { contact ->
+                    userApp.contacts = contact as MutableList<String>
+                }
+            }.addOnFailureListener {
+                value = Resource(false, "Falha ao tentar recuperar os contatos")
+            }
+    }
+
     fun isLoggedIn(): LiveData<Boolean> = MutableLiveData<Boolean>().apply {
         value = sessionManager.getSavedUidUser().isNotEmpty()
     }
@@ -110,7 +129,6 @@ class IntroRepository(
     }
 
     companion object {
-        const val USER_DATA = "userData"
         const val USERS = "users"
     }
 

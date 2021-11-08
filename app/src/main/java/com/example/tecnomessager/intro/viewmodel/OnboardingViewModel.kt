@@ -21,13 +21,13 @@ class OnboardingViewModel(private val repository: IntroRepository) : ViewModel()
     private fun validFields(userApp: UserApp): LiveData<Resource<Boolean>> =
         MutableLiveData<Resource<Boolean>>().apply {
             value = when {
-                userApp.nameProfile!!.isBlank() && userApp.messageProfile!!.isBlank() -> {
+                userApp.nameProfile.isNullOrEmpty() && userApp.messageProfile.isNullOrEmpty() -> {
                     Resource(false, "Nome e recado são obrigatórios")
                 }
-                userApp.nameProfile!!.isBlank() -> {
+                userApp.nameProfile.isNullOrEmpty() -> {
                     Resource(false, "Nome de perfil é obrigatório")
                 }
-                userApp.messageProfile!!.isBlank() -> {
+                userApp.messageProfile.isNullOrEmpty() -> {
                     Resource(false, "Recado é obrigatório")
                 }
                 else -> {

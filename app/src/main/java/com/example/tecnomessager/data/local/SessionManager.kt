@@ -19,7 +19,7 @@ class SessionManager(private val preferences: SharedPreferences) {
         }
     }
 
-    fun getSavedemailUser(): String = preferences.getString(EMAIL_USER,"")!!
+    fun getSavedEmailUser(): String = preferences.getString(EMAIL_USER,"")!!
 
     companion object{
         private const val UID_USER = "uid_user"

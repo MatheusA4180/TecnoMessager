@@ -63,7 +63,6 @@ class MessagesContactFragment : Fragment() {
             if(binding.edittextChatLog.text.toString().isNotEmpty()) {
                 viewModel.sendMenssage(
                     MessageSend(
-                        id = null,
                         date = formatDate(Calendar.getInstance(Locale("pt","BR")).time),
                         hour = formatHour(Calendar.getInstance(Locale("pt","BR")).time),
                         contentMessage = binding.edittextChatLog.text.toString(),
