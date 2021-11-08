@@ -3,6 +3,7 @@ package com.example.tecnomessager.home.features.contacts.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.tecnomessager.data.model.Message
 import com.example.tecnomessager.data.model.MessageReceiver
 import com.example.tecnomessager.data.model.Resource
 import com.example.tecnomessager.data.model.UserApp
@@ -19,6 +20,10 @@ class ListContactsViewModel(private val repository: ContactsRepository) : ViewMo
         }
     }
 
+    fun requestContacts(): LiveData<List<UserApp>> {
+        return repository.requestContacts()
+    }
+
     private fun validFields(contact: String): LiveData<Resource<Boolean>> =
         MutableLiveData<Resource<Boolean>>().apply {
             value = if (contact.isEmpty()) {
@@ -27,33 +32,5 @@ class ListContactsViewModel(private val repository: ContactsRepository) : ViewMo
                 Resource(true)
             }
         }
-
-//    fun requestMessagesByContacts(): LiveData<List<MessageReceiver>>{
-//        val listContacts = requestContacts().value
-//        val listMessages = requestMessages().value
-//        return MutableLiveData<List<MessageReceiver>>().apply {
-//            val listMessagesByContacts: MutableList<MessageReceiver> = mutableListOf()
-//            listContacts?.forEach {
-//                listMessagesByContacts.add(MessageReceiver(userReceiver = it.uidUser))
-//            }
-//            listContacts?.forEach { contact ->
-//                listMessages?.forEach { message ->
-//                    if(contact.uidUser == message.userReceiver){
-//                        listMessagesByContacts.add(message)
-//                    }
-//                }
-//            }
-//            value = listMessagesByContacts
-//            val teste1 = 0
-//        }
-//    }
-
-    fun requestContacts(): LiveData<List<UserApp>> {
-        return repository.requestContacts()
-    }
-
-    fun requestMessages(): LiveData<List<MessageReceiver>> {
-        return repository.requestMessages()
-    }
 
 }

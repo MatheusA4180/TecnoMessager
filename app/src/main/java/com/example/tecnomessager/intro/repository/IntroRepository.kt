@@ -113,7 +113,7 @@ class IntroRepository(
             .get()
             .addOnSuccessListener {
                 it.get("contacts")?.let { contact ->
-                    userApp.contacts = contact as MutableList<String>
+                    userApp.contacts = contact as MutableList<UserApp.Contact>
                 }
             }.addOnFailureListener {
                 value = Resource(false, "Falha ao tentar recuperar os contatos")

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.tecnomessager.R
+import com.example.tecnomessager.data.model.Message
 import com.example.tecnomessager.data.model.MessageSend
 import com.example.tecnomessager.databinding.FragmentMessagesContactBinding
 import com.example.tecnomessager.home.features.contacts.adapter.ListMessagesContactAdapter
@@ -53,7 +54,7 @@ class MessagesContactFragment : Fragment() {
             requireActivity().finish()
         }
 
-        viewModel.requestMessagesByUser("testando").observe(viewLifecycleOwner,{ listMessages ->
+        viewModel.requestMessagesByUser("samuell@gmail.com").observe(viewLifecycleOwner,{ listMessages ->
             binding.recyclerviewChatLog.adapter = ListMessagesContactAdapter(listMessages)
         })
 
@@ -62,13 +63,13 @@ class MessagesContactFragment : Fragment() {
         binding.sendButtonChat.setOnClickListener {
             if(binding.edittextChatLog.text.toString().isNotEmpty()) {
                 viewModel.sendMenssage(
-                    MessageSend(
+                    Message(
                         date = formatDate(Calendar.getInstance(Locale("pt","BR")).time),
                         hour = formatHour(Calendar.getInstance(Locale("pt","BR")).time),
                         contentMessage = binding.edittextChatLog.text.toString(),
                         file = null,
                         userSend = null,
-                        userReceiver = "Matheus Trainne"
+                        userReceiver = "samuell@gmail.com"
                     )
                 ).observe(viewLifecycleOwner,{
                     it?.let { resource ->

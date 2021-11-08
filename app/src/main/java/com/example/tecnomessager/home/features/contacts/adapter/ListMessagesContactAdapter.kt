@@ -7,11 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tecnomessager.R
+import com.example.tecnomessager.data.model.Message
 import com.example.tecnomessager.data.model.MessageReceiver
 import com.squareup.picasso.Picasso
 
 class ListMessagesContactAdapter(
-    private val listMessagesContact: List<MessageReceiver>
+    private val listMessagesContact: List<Message>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun getItemCount(): Int = listMessagesContact.size
@@ -35,7 +36,7 @@ class ListMessagesContactAdapter(
         private val iconMessage: ImageView = itemView.findViewById(R.id.imageViewSent)
         private val hourMessage: TextView = itemView.findViewById(R.id.hour_message_send)
 
-        fun bind(message: MessageReceiver) {
+        fun bind(message: Message) {
             //Picasso.get().load(message.imageUserReceiver).into(imageContact)
             if(!message.contentMessage.isNullOrEmpty()){
                 messageText.text = message.contentMessage

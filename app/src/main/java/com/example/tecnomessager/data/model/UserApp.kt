@@ -6,5 +6,10 @@ data class UserApp (
     val imageProfile: String? = null,
     val nameProfile: String? = null,
     val messageProfile:String? = null,
-    var contacts: List<String>? = null
-)
+    var contacts: List<Contact>? = null
+){
+    data class Contact(
+        val nameContact: String? = null,
+        val idChatMessages: String? = null
+    )
+}
