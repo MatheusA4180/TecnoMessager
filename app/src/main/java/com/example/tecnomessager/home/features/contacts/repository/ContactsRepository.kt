@@ -1,6 +1,5 @@
 package com.example.tecnomessager.home.features.contacts.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.tecnomessager.data.local.SessionManager
@@ -22,21 +21,21 @@ class ContactsRepository(
 
     fun addContacts(contact: String): LiveData<Resource<Boolean>> =
         MutableLiveData<Resource<Boolean>>().apply {
-            var listContacts: MutableList<UserApp.Contact> = mutableListOf()
+            var listContacts: MutableList<HashMap<String, String>> = mutableListOf()
             firebaseFirestore.collection(USERS).document(sessionManager.getSavedEmailUser())
                 .get()
                 .addOnSuccessListener {
                     it.get("contacts")?.let { contact ->
-                        listContacts = contact as MutableList<UserApp.Contact>
+                        listContacts = contact as MutableList<HashMap<String, String>>
                     }
-                    if (listContacts.none { ElementListContact -> ElementListContact.nameContact == contact }) {
+                    if (listContacts.none { ElementListContact -> ElementListContact["nameContact"] == contact }) {
                         val idChatMessages = "${UUID.randomUUID()}"
                         firebaseFirestore.collection(idChatMessages)
                             .add(mapOf("idChat" to idChatMessages)).addOnSuccessListener {
                                 listContacts.add(
-                                    UserApp.Contact(
-                                        nameContact = contact,
-                                        idChatMessages = idChatMessages
+                                    hashMapOf(
+                                        "nameContact" to contact,
+                                        "idChatMessages" to idChatMessages
                                     )
                                 )
                                 addContactToFirebase(listContacts)
@@ -54,7 +53,7 @@ class ContactsRepository(
         }
 
     private fun MutableLiveData<Resource<Boolean>>.addContactToFirebase(
-        listContacts: MutableList<UserApp.Contact>
+        listContacts: MutableList<HashMap<String, String>>
     ) {
         firebaseFirestore.collection(USERS)
             .document(sessionManager.getSavedEmailUser())
@@ -116,7 +115,8 @@ class ContactsRepository(
                                     listContactsWithData.add(snapshot.toObject<UserApp>()!!)
                                 } catch (e: Exception) {
                                 }
-                                val listMessagesByContacts: MutableList<MessageReceiver> = mutableListOf()
+                                val listMessagesByContacts: MutableList<MessageReceiver> =
+                                    mutableListOf()
                                 listContactsWithData.forEach {
                                     listMessagesByContacts.add(
                                         MessageReceiver(
@@ -152,15 +152,16 @@ class ContactsRepository(
                                         valueSnapshot?.let { snapshot ->
                                             var userSend = sessionManager.getSavedEmailUser()
                                             var listMessages: MutableList<Message> = mutableListOf()
-                                                listMessages = snapshot.documents
-                                                    .mapNotNull { documento ->
-                                                        documento.toObject<Message>()
-                                                    }.filter { message -> !(message.contentMessage.isNullOrEmpty()) }
-                                                    .toMutableList()
+                                            listMessages = snapshot.documents
+                                                .mapNotNull { documento ->
+                                                    documento.toObject<Message>()
+                                                }
+                                                .filter { message -> !(message.contentMessage.isNullOrEmpty()) }
+                                                .toMutableList()
                                             listMessages.forEach { messageFiltered ->
-                                                if(messageFiltered.userSend == userSend){
+                                                if (messageFiltered.userSend == userSend) {
                                                     messageFiltered.userSend = "1"
-                                                }else{
+                                                } else {
                                                     messageFiltered.userSend = "2"
                                                 }
                                             }
@@ -168,7 +169,8 @@ class ContactsRepository(
                                         }
                                     }
                             }
-                        } catch (e: Exception) { }
+                        } catch (e: Exception) {
+                        }
                     }
                 }.addOnFailureListener { }
         }
@@ -245,8 +247,8 @@ class ContactsRepository(
 //        }
 
 
-companion object {
-    const val MESSAGE = "message"
-}
+    companion object {
+        const val MESSAGE = "message"
+    }
 
 }
