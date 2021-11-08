@@ -14,11 +14,13 @@ import com.example.tecnomessager.databinding.FragmentMessagesContactBinding
 import com.example.tecnomessager.home.features.contacts.adapter.ListMessagesContactAdapter
 import com.example.tecnomessager.home.features.contacts.viewmodel.MessageContactViewModel
 import com.example.tecnomessager.home.fragments.ListContactsFragment.Companion.EMAIL_CONTACT
+import com.example.tecnomessager.home.fragments.ListContactsFragment.Companion.IMAGE_CONTACT
 import com.example.tecnomessager.home.fragments.ListContactsFragment.Companion.NAME_CONTACT
 import com.example.tecnomessager.intro.fragments.LoginFragmentDirections
 import com.example.tecnomessager.utils.extension.HelperFunctions.formatDate
 import com.example.tecnomessager.utils.extension.HelperFunctions.formatHour
 import com.example.tecnomessager.utils.extension.snackBar
+import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.bind
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
@@ -43,12 +45,11 @@ class MessagesContactFragment : Fragment() {
 
         val intent = requireActivity().intent
 
-        if (intent.getStringExtra(NAME_CONTACT).isNullOrEmpty()) {
+        if (intent.getStringExtra(IMAGE_CONTACT).isNullOrEmpty()) {
             binding.imageviewContact.setImageResource(R.drawable.icon_app)
+        } else{
+            Picasso.get().load(intent.getStringExtra(IMAGE_CONTACT)).into(binding.imageviewContact)
         }
-//        else{
-//            Picasso.get().load(message.imageUserReceiver).into(imageContact)
-//        }
 
         binding.nameContact.text = intent.getStringExtra(NAME_CONTACT)
 

@@ -1,5 +1,6 @@
 package com.example.tecnomessager.home.features.contacts.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.tecnomessager.data.local.SessionManager
@@ -9,6 +10,7 @@ import com.example.tecnomessager.data.model.Resource
 import com.example.tecnomessager.data.model.UserApp
 import com.example.tecnomessager.intro.repository.IntroRepository.Companion.USERS
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
@@ -101,6 +103,7 @@ class ContactsRepository(
         MutableLiveData<List<MessageReceiver>>().apply {
             var listContacts: MutableList<HashMap<String, String>> = mutableListOf()
             val listContactsWithData: MutableList<UserApp> = mutableListOf()
+            val listMessages: MutableList<MutableList<Message>> = mutableListOf()
 
             firebaseFirestore.collection(USERS).document(sessionManager.getSavedEmailUser())
                 .get()
@@ -148,6 +151,7 @@ class ContactsRepository(
                                 var idChatMessages = ""
                                 idChatMessages = contact["idChatMessages"].toString()
                                 firebaseFirestore.collection(idChatMessages)
+                                    .orderBy("id", Query.Direction.DESCENDING)
                                     .addSnapshotListener { valueSnapshot, _ ->
                                         valueSnapshot?.let { snapshot ->
                                             var userSend = sessionManager.getSavedEmailUser()
@@ -156,7 +160,6 @@ class ContactsRepository(
                                                 .mapNotNull { documento ->
                                                     documento.toObject<Message>()
                                                 }
-                                                .filter { message -> !(message.contentMessage.isNullOrEmpty()) }
                                                 .toMutableList()
                                             listMessages.forEach { messageFiltered ->
                                                 if (messageFiltered.userSend == userSend) {
@@ -175,20 +178,6 @@ class ContactsRepository(
                 }.addOnFailureListener { }
         }
 
-//    fun requestMessagesByUser(userReceiver: String): LiveData<List<MessageSend>> =
-//        MutableLiveData<List<MessageSend>>().apply {
-//            firebaseFirestore.collection(sessionManager.getSavedUidUser())
-//                .addSnapshotListener { valueSnapshot, _ ->
-//                    valueSnapshot?.let { snapshot ->
-//                        val listMessages: List<MessageSend> = snapshot.documents
-//                            .mapNotNull { documento ->
-//                                documento.toObject<MessageSend>()
-//                            }
-//                        value = listMessages.filter { it.userReceiver == userReceiver }
-//                    }
-//                }
-//        }
-
     fun sendMessage(message: Message): LiveData<Resource<Boolean>> =
         MutableLiveData<Resource<Boolean>>().apply {
             var listContacts: MutableList<HashMap<String, String>> = mutableListOf()
@@ -203,24 +192,69 @@ class ContactsRepository(
                             if (contact["nameContact"] == message.userReceiver) {
                                 var idChatMessages = ""
                                 idChatMessages = contact["idChatMessages"].toString()
-                                val messageTreatmented = Message(
-                                    date = message.date,
-                                    hour = message.hour,
-                                    contentMessage = message.contentMessage,
-                                    file = message.file,
-                                    userSend = sessionManager.getSavedEmailUser(),
-                                    userReceiver = message.userReceiver,
-                                )
-                                firebaseFirestore.collection(idChatMessages)
-                                    .document(MESSAGE + "${UUID.randomUUID()}")
-                                    .set(messageTreatmented)
-                                    .addOnSuccessListener {
-                                        value = Resource(
-                                            true,
-                                            "Mensagem enviada com sucesso"
-                                        )
-                                    }
-                                    .addOnFailureListener {
+
+                                firebaseFirestore.collection(idChatMessages).get()
+                                    .addOnSuccessListener { snapshot ->
+                                        var userSend = sessionManager.getSavedEmailUser()
+                                        var listMessages: MutableList<Message> = mutableListOf()
+                                        listMessages = snapshot.documents
+                                            .mapNotNull { documento ->
+                                                documento.toObject<Message>()
+                                            }
+                                            .filter { message -> !(message.contentMessage.isNullOrEmpty()) }
+                                            .toMutableList()
+                                        if (listMessages.isNullOrEmpty()) {
+                                            val messageTreatmented = Message(
+                                                id = 0,
+                                                date = message.date,
+                                                hour = message.hour,
+                                                contentMessage = message.contentMessage,
+                                                file = message.file,
+                                                userSend = sessionManager.getSavedEmailUser(),
+                                                userReceiver = message.userReceiver,
+                                            )
+                                            firebaseFirestore.collection(idChatMessages)
+                                                .document(MESSAGE + "${UUID.randomUUID()}")
+                                                .set(messageTreatmented)
+                                                .addOnSuccessListener {
+                                                    value = Resource(
+                                                        true,
+                                                        "Mensagem enviada com sucesso"
+                                                    )
+                                                }
+                                                .addOnFailureListener {
+                                                    value = Resource(
+                                                        false,
+                                                        "Falha ao enviar a mensagem"
+                                                    )
+                                                }
+                                        } else {
+                                            val messageTreatmented = Message(
+                                                id = listMessages.size,
+                                                date = message.date,
+                                                hour = message.hour,
+                                                contentMessage = message.contentMessage,
+                                                file = message.file,
+                                                userSend = sessionManager.getSavedEmailUser(),
+                                                userReceiver = message.userReceiver,
+                                            )
+                                            firebaseFirestore.collection(idChatMessages)
+                                                .document(MESSAGE + "${UUID.randomUUID()}")
+                                                .set(messageTreatmented)
+                                                .addOnSuccessListener {
+                                                    value = Resource(
+                                                        true,
+                                                        "Mensagem enviada com sucesso"
+                                                    )
+                                                }
+                                                .addOnFailureListener {
+                                                    value = Resource(
+                                                        false,
+                                                        "Falha ao enviar a mensagem"
+                                                    )
+                                                }
+                                        }
+                                    }.addOnSuccessListener {
                                         value = Resource(
                                             false,
                                             "Falha ao enviar a mensagem"

@@ -67,7 +67,7 @@ class ListContactsAdapter(
             } else {
                 Picasso.get().load(message.imageUserReceiver).into(imageContact)
             }
-            //imageContact.setImageResource(R.drawable.icon_app)
+            imageContact.setImageResource(R.drawable.icon_app)
             nameContact.text = if (message.userReceiver.isNullOrEmpty()) {
                 ""
             } else {
