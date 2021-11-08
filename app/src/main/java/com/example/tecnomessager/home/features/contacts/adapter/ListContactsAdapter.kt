@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tecnomessager.R
 import com.example.tecnomessager.data.model.MessageReceiver
+import com.example.tecnomessager.data.model.UserApp
+import com.squareup.picasso.Picasso
 
 class ListContactsAdapter(
     private val listMessage: List<MessageReceiver>,
@@ -33,13 +35,20 @@ class ListContactsAdapter(
             holder.itemView.setOnClickListener {
                 if (listMessage.isEmpty()) {
                     contactClickListener.clickListener(
-                        MessageReceiver(
-                            userReceiver = "",
-                            imageUserReceiver = ""
+                        UserApp(
+                            email = "",
+                            imageProfile = "",
+                            nameProfile = ""
                         )
                     )
                 } else {
-                    contactClickListener.clickListener(listMessage[position])
+                    contactClickListener.clickListener(
+                        UserApp(
+                            email = listMessage[position].emailUserReceiver,
+                            imageProfile = listMessage[position].imageUserReceiver,
+                            nameProfile = listMessage[position].userReceiver
+                        )
+                    )
                 }
             }
         }
@@ -53,12 +62,12 @@ class ListContactsAdapter(
         private val hourMessageRecent: TextView = itemView.findViewById(R.id.hour_message_recent)
 
         fun bind(message: MessageReceiver) {
-//            if (message.imageUserReceiver.isNullOrEmpty()) {
+            if (message.imageUserReceiver.isNullOrEmpty()) {
                 imageContact.setImageResource(R.drawable.icon_app)
-//            }
-//            else{
-//                Picasso.get().load(message.imageUserReceiver).into(imageContact)
-//            }
+            } else {
+                Picasso.get().load(message.imageUserReceiver).into(imageContact)
+            }
+            //imageContact.setImageResource(R.drawable.icon_app)
             nameContact.text = if (message.userReceiver.isNullOrEmpty()) {
                 ""
             } else {
@@ -79,7 +88,7 @@ class ListContactsAdapter(
     }
 
     interface ContactClickListener {
-        fun clickListener(message: MessageReceiver)
+        fun clickListener(userApp: UserApp)
     }
 
 }

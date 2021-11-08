@@ -1,6 +1,7 @@
 package com.example.tecnomessager.home.features.contacts.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.example.tecnomessager.data.model.MessageSend
 import com.example.tecnomessager.databinding.FragmentMessagesContactBinding
 import com.example.tecnomessager.home.features.contacts.adapter.ListMessagesContactAdapter
 import com.example.tecnomessager.home.features.contacts.viewmodel.MessageContactViewModel
+import com.example.tecnomessager.home.fragments.ListContactsFragment.Companion.EMAIL_CONTACT
 import com.example.tecnomessager.home.fragments.ListContactsFragment.Companion.NAME_CONTACT
 import com.example.tecnomessager.intro.fragments.LoginFragmentDirections
 import com.example.tecnomessager.utils.extension.HelperFunctions.formatDate
@@ -54,7 +56,7 @@ class MessagesContactFragment : Fragment() {
             requireActivity().finish()
         }
 
-        viewModel.requestMessagesByUser("samuell@gmail.com").observe(viewLifecycleOwner,{ listMessages ->
+        viewModel.requestMessagesByUser(intent.getStringExtra(EMAIL_CONTACT)!!).observe(viewLifecycleOwner,{ listMessages ->
             binding.recyclerviewChatLog.adapter = ListMessagesContactAdapter(listMessages)
         })
 
@@ -69,7 +71,7 @@ class MessagesContactFragment : Fragment() {
                         contentMessage = binding.edittextChatLog.text.toString(),
                         file = null,
                         userSend = null,
-                        userReceiver = "samuell@gmail.com"
+                        userReceiver = intent.getStringExtra(EMAIL_CONTACT)!!
                     )
                 ).observe(viewLifecycleOwner,{
                     it?.let { resource ->

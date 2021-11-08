@@ -11,7 +11,7 @@ import com.example.tecnomessager.home.features.contacts.repository.ContactsRepos
 class MessageContactViewModel(private val repository: ContactsRepository): ViewModel() {
 
     fun requestMessagesByUser(userReceiver:String): LiveData<List<Message>> {
-        return repository.requestMessages(userReceiver)
+        return repository.requestMessagesByUser(userReceiver)
     }
 
     fun sendMenssage(message:Message): LiveData<Resource<Boolean>> {

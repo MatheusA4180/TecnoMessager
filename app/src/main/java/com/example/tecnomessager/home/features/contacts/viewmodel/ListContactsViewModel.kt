@@ -20,9 +20,10 @@ class ListContactsViewModel(private val repository: ContactsRepository) : ViewMo
         }
     }
 
-    fun requestContacts(): LiveData<List<UserApp>> {
+    fun requestContacts(): LiveData<List<MessageReceiver>>{
         return repository.requestContacts()
     }
+
 
     private fun validFields(contact: String): LiveData<Resource<Boolean>> =
         MutableLiveData<Resource<Boolean>>().apply {

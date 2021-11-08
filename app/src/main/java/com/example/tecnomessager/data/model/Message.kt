@@ -6,6 +6,6 @@ data class Message(
     val hour: String? = null,
     val contentMessage: String? = null,
     val file: String? = null,
-    val userSend: String? = null,
-    val userReceiver: String? = null
+    var userSend: String? = null,
+    var userReceiver: String? = null
 )

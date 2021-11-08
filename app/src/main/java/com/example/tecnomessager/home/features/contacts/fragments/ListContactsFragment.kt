@@ -9,7 +9,9 @@ import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.example.tecnomessager.R
+import com.example.tecnomessager.data.model.Message
 import com.example.tecnomessager.data.model.MessageReceiver
+import com.example.tecnomessager.data.model.UserApp
 import com.example.tecnomessager.databinding.FragmentListContactsBinding
 import com.example.tecnomessager.home.features.contacts.activity.ContactActivity
 import com.example.tecnomessager.home.features.contacts.adapter.ListContactsAdapter
@@ -84,32 +86,25 @@ class ListContactsFragment : Fragment(), ListContactsAdapter.ContactClickListene
 
     private fun requestContacts() {
         viewModel.requestContacts().observe(viewLifecycleOwner, { listContacts ->
-            val listMessagesByContacts: MutableList<MessageReceiver> = mutableListOf()
-            listContacts?.forEach {
-                listMessagesByContacts.add(
-                    MessageReceiver(
-                        userReceiver = it.nameProfile,
-                        imageUserReceiver = it.imageProfile
-                    )
-                )
-            }
             binding.listContacts.adapter =
-                ListContactsAdapter(listMessagesByContacts, this@ListContactsFragment)
+                ListContactsAdapter(listContacts, this@ListContactsFragment)
         })
     }
 
-    override fun clickListener(message: MessageReceiver) {
+    override fun clickListener(userApp: UserApp) {
         startActivity(
             Intent(requireActivity(), ContactActivity::class.java).apply {
-                putExtra(IMAGE_CONTACT, message.imageUserReceiver)
-                putExtra(NAME_CONTACT, message.userReceiver)
+                putExtra(IMAGE_CONTACT, userApp.imageProfile)
+                putExtra(NAME_CONTACT, userApp.nameProfile)
+                putExtra(EMAIL_CONTACT,userApp.email)
             }
         )
     }
 
     companion object {
-        const val NAME_CONTACT = "nameContact"
+        const val NAME_CONTACT = "nameProfile"
         const val IMAGE_CONTACT = "imageContact"
+        const val EMAIL_CONTACT = "email"
     }
 
 }
